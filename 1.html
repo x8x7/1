@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>拉起QQ浏览器</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a82f7 0%, #2a6bc9 100%);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .container {
+            max-width: 500px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            background: #fff;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: #1a82f7;
+            font-weight: bold;
+        }
+        
+        h1 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            opacity: 0.9;
+        }
+        
+        .url-display {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            padding: 12px 15px;
+            margin: 20px 0;
+            word-break: break-all;
+            font-size: 14px;
+            text-align: left;
+        }
+        
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        
+        .btn {
+            padding: 15px;
+            border-radius: 12px;
+            border: none;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: #fff;
+            color: #1a82f7;
+        }
+        
+        .btn-primary:hover {
+            background: #f0f0f0;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .instructions {
+            margin-top: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: left;
+        }
+        
+        .instructions h3 {
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        .instructions ol {
+            padding-left: 20px;
+        }
+        
+        .instructions li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        
+        .status {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        
+        .status.success {
+            background: rgba(46, 204, 113, 0.2);
+        }
+        
+        .status.error {
+            background: rgba(231, 76, 60, 0.2);
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">QQ</div>
+        <h1>在QQ浏览器中打开</h1>
+        <p>点击下方按钮尝试在QQ浏览器中打开页面</p>
+        
+        <div class="url-display" id="urlDisplay">
+            <!-- URL will be displayed here -->
+        </div>
+        
+        <div class="buttons">
+            <button class="btn btn-primary" id="launchBtn">拉起QQ浏览器</button>
+            <button class="btn btn-secondary" id="copyBtn">复制链接</button>
+            <button class="btn btn-secondary" id="openBtn">在微信中打开</button>
+        </div>
+        
+        <div class="instructions">
+            <h3>如果无法拉起QQ浏览器：</h3>
+            <ol>
+                <li>点击右上角菜单按钮（三个点）</li>
+                <li>选择"在浏览器打开"</li>
+                <li>选择QQ浏览器（如果已安装）</li>
+                <li>或手动复制链接到QQ浏览器打开</li>
+            </ol>
+        </div>
+        
+        <div class="status hidden" id="statusMessage"></div>
+    </div>
+
+    <script>
+        // 目标URL
+        const targetUrl = 'https://ocyer.github.io/live/?p=71183&code=876741-1-145995-4102329600-e7';
+        
+        // 显示URL
+        document.getElementById('urlDisplay').textContent = targetUrl;
+        
+        // 拉起QQ浏览器的函数
+        function launchQQBrowser(url) {
+            // 尝试直接使用scheme
+            const openUrl = 'mttbrowser://url=' + encodeURIComponent(url);
+            
+            // 创建iframe尝试拉起
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.src = openUrl;
+            document.body.appendChild(iframe);
+            
+            // 设置超时检测是否拉起成功
+            setTimeout(function() {
+                document.body.removeChild(iframe);
+                
+                // 如果还在当前页面，说明拉起失败
+                showStatus('无法拉起QQ浏览器，请尝试其他方法', 'error');
+            }, 2000);
+        }
+        
+        // 复制链接到剪贴板
+        function copyToClipboard(text) {
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showStatus('链接已复制到剪贴板', 'success');
+                }).catch(err => {
+                    fallbackCopyToClipboard(text);
+                });
+            } else {
+                fallbackCopyToClipboard(text);
+            }
+        }
+        
+        // 兼容性复制方法
+        function fallbackCopyToClipboard(text) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.opacity = '0';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                const successful = document.execCommand('copy');
+                document.body.removeChild(textArea);
+                if (successful) {
+                    showStatus('链接已复制到剪贴板', 'success');
+                } else {
+                    showStatus('复制失败，请手动复制链接', 'error');
+                }
+            } catch (err) {
+                document.body.removeChild(textArea);
+                showStatus('复制失败，请手动复制链接', 'error');
+            }
+        }
+        
+        // 显示状态消息
+        function showStatus(message, type) {
+            const statusEl = document.getElementById('statusMessage');
+            statusEl.textContent = message;
+            statusEl.className = 'status ' + type;
+            statusEl.classList.remove('hidden');
+            
+            setTimeout(() => {
+                statusEl.classList.add('hidden');
+            }, 3000);
+        }
+        
+        // 在微信中打开链接
+        function openInWechat(url) {
+            window.location.href = url;
+        }
+        
+        // 事件监听
+        document.getElementById('launchBtn').addEventListener('click', function() {
+            launchQQBrowser(targetUrl);
+        });
+        
+        document.getElementById('copyBtn').addEventListener('click', function() {
+            copyToClipboard(targetUrl);
+        });
+        
+        document.getElementById('openBtn').addEventListener('click', function() {
+            openInWechat(targetUrl);
+        });
+        
+        // 页面加载后自动尝试拉起QQ浏览器
+        window.addEventListener('load', function() {
+            // 延迟执行，让用户看到页面
+            setTimeout(function() {
+                // 在微信中自动拉起成功率较低，这里不自动执行
+                // launchQQBrowser(targetUrl);
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
