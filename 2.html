@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>请复制到浏览器内打开</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a82f7 0%, #2a6bc9 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding-top: 40px;
+        }
+        
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            background: #fff;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: #1a82f7;
+            font-weight: bold;
+        }
+        
+        h1 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            opacity: 0.9;
+        }
+        
+        .url-display {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            padding: 12px 15px;
+            margin: 20px 0;
+            word-break: break-all;
+            font-size: 14px;
+            text-align: left;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            background: #fff;
+            color: #1a82f7;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+        
+        .btn:hover {
+            background: #f0f0f0;
+            transform: translateY(-2px);
+        }
+        
+        /* 右上角指示器 */
+        .top-right-indicator {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            text-align: right;
+        }
+        
+        .dots {
+            font-size: 24px;
+            color: #fff;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .arrow {
+            position: absolute;
+            top: -100px;
+            right: 15px;
+            width: 80px;
+            height: 80px;
+            transform: rotate(-45deg);
+        }
+        
+        .arrow-line {
+            position: absolute;
+            background: #fff;
+            border-radius: 2px;
+        }
+        
+        .arrow-line-1 {
+            width: 60px;
+            height: 4px;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+        }
+        
+        .arrow-line-2 {
+            width: 4px;
+            height: 20px;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            border-radius: 2px 2px 0 0;
+        }
+        
+        .instructions {
+            margin-top: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+        }
+        
+        .instructions h3 {
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .steps {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            text-align: left;
+        }
+        
+        .step {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        
+        .step-number {
+            background: #fff;
+            color: #1a82f7;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        
+        .step-text {
+            flex: 1;
+            line-height: 1.5;
+        }
+        
+        .status {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 14px;
+            background: rgba(46, 204, 113, 0.2);
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- 右上角指示器 -->
+    <div class="top-right-indicator">
+        <div class="arrow">
+            <div class="arrow-line arrow-line-1"></div>
+            <div class="arrow-line arrow-line-2"></div>
+        </div>
+        <div class="dots">···</div>
+    </div>
+
+    <div class="container">
+        <div class="logo">QQ</div>
+        <h1>请在浏览器中打开</h1>
+        <p>当前页面需要在浏览器中获得最佳体验</p>
+        
+        <div class="url-display" id="urlDisplay">
+            <!-- URL will be displayed here -->
+        </div>
+        
+        <button class="btn" id="copyBtn">复制链接地址</button>
+        
+        <div class="instructions">
+            <h3>操作指引</h3>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-text">点击右上角 <strong>三个点</strong> 菜单按钮</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-text">点击 <strong>"在浏览器中打开"</strong></div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-text">选择浏览器并打开页面</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="status" id="statusMessage">链接已复制到剪贴板</div>
+    </div>
+
+    <script>
+        // 目标URL
+        const targetUrl = 'https://ocyer.github.io/live/?p=71183&code=876741-1-145995-4102329600-e7';
+        
+        // 显示URL
+        document.getElementById('urlDisplay').textContent = targetUrl;
+        
+        // 复制链接到剪贴板
+        function copyToClipboard(text) {
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showStatus();
+                }).catch(err => {
+                    fallbackCopyToClipboard(text);
+                });
+            } else {
+                fallbackCopyToClipboard(text);
+            }
+        }
+        
+        // 兼容性复制方法
+        function fallbackCopyToClipboard(text) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.opacity = '0';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                const successful = document.execCommand('copy');
+                document.body.removeChild(textArea);
+                if (successful) {
+                    showStatus();
+                } else {
+                    alert('复制失败，请手动复制链接');
+                }
+            } catch (err) {
+                document.body.removeChild(textArea);
+                alert('复制失败，请手动复制链接');
+            }
+        }
+        
+        // 显示状态消息
+        function showStatus() {
+            const statusEl = document.getElementById('statusMessage');
+            statusEl.style.display = 'block';
+            
+            setTimeout(() => {
+                statusEl.style.display = 'none';
+            }, 3000);
+        }
+        
+        // 事件监听
+        document.getElementById('copyBtn').addEventListener('click', function() {
+            copyToClipboard(targetUrl);
+        });
+    </script>
+</body>
+</html>
