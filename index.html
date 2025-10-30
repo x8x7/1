@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>拉起QQ浏览器</title>
+</head>
+<body>
+    <script>
+        function launchQQBrowser(url) {
+            setTimeout(function () {
+                var openUrl = 'mttbrowser://url=' + url;
+                location.href = openUrl;
+            }, 500);
+        }
+        
+        // 使用示例
+        var targetUrl = 'https://ocyer.github.io/live/?p=71183&code=876741-1-145995-4102329600-e7'; // 替换为你想要打开的网址
+        launchQQBrowser(targetUrl);
+    </script>
+</body>
+</html>
